@@ -25,7 +25,7 @@ func runeRangesToRunes(ranges [][2]string) ([]rune, error) {
 		}
 
 		a := []rune(runeRange[0])[0]
-		b := []rune(runeRange[0])[1]
+		b := []rune(runeRange[1])[0]
 
 		for i := a; i <= b; i++ {
 			runeSet[i] = struct{}{}
