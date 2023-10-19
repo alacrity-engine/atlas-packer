@@ -3,12 +3,12 @@ module github.com/alacrity-engine/atlas-packer
 go 1.21.3
 
 require (
-	github.com/alacrity-engine/core v0.0.0-20231004055325-ab7a7367cf11
-	github.com/alacrity-engine/resource-codec v0.0.0-20231014151222-f4b8b2546c5d
+	github.com/alacrity-engine/core v0.0.0-20231018122847-c81ac5c7aef5
+	github.com/alacrity-engine/resource-codec v0.0.0-20231019105022-cfe2d8bf9ae9
 	github.com/golang-collections/collections v0.0.0-20130729185459-604e922904d3
 	github.com/golang/freetype v0.0.0-20170609003504-e2365dfdc4a0
 	go.etcd.io/bbolt v1.3.7
-	golang.org/x/image v0.12.0
+	golang.org/x/image v0.13.0
 	gopkg.in/yaml.v2 v2.4.0
 )
 

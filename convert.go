@@ -104,15 +104,22 @@ func (atlasMeta AtlasMeta) ToAtlasData(resourceFile *bolt.DB) (*codec.AtlasData,
 		i2f(fixedBounds.Max.Y),
 	)
 
-	mapping := make(map[rune]geometry.Rect)
+	mapping := make(map[rune]codec.GlyphData)
 
 	for r, fg := range fixedMapping {
-		mapping[r] = geometry.R(
-			i2f(fg.frame.Min.X),
-			bounds.Max.Y-(i2f(fg.frame.Min.Y)-bounds.Min.Y),
-			i2f(fg.frame.Max.X),
-			bounds.Max.Y-(i2f(fg.frame.Max.Y)-bounds.Min.Y),
-		).Norm()
+		mapping[r] = codec.GlyphData{
+			Dot: geometry.V(
+				i2f(fg.dot.X),
+				bounds.Max.Y-(i2f(fg.dot.Y)-bounds.Min.Y),
+			),
+			Frame: geometry.R(
+				i2f(fg.frame.Min.X),
+				bounds.Max.Y-(i2f(fg.frame.Min.Y)-bounds.Min.Y),
+				i2f(fg.frame.Max.X),
+				bounds.Max.Y-(i2f(fg.frame.Max.Y)-bounds.Min.Y),
+			).Norm(),
+			Advance: i2f(fg.advance),
+		}
 	}
 
 	atlasPic, err := codec.NewPictureFromImage(atlasImg)
@@ -122,7 +129,7 @@ func (atlasMeta AtlasMeta) ToAtlasData(resourceFile *bolt.DB) (*codec.AtlasData,
 	}
 
 	return &codec.AtlasData{
-		Frames:    mapping,
+		Glyphs:    mapping,
 		SymbolSet: atlasPic,
 	}, nil
 }
