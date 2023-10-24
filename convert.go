@@ -105,9 +105,10 @@ func (atlasMeta AtlasMeta) ToAtlasData(resourceFile *bolt.DB) (*codec.AtlasData,
 	)
 
 	mapping := make(map[rune]codec.GlyphData)
+	var maxHeight float64
 
 	for r, fg := range fixedMapping {
-		mapping[r] = codec.GlyphData{
+		glyph := codec.GlyphData{
 			Dot: geometry.V(
 				i2f(fg.dot.X),
 				bounds.Max.Y-(i2f(fg.dot.Y)-bounds.Min.Y),
@@ -120,6 +121,12 @@ func (atlasMeta AtlasMeta) ToAtlasData(resourceFile *bolt.DB) (*codec.AtlasData,
 			).Norm(),
 			Advance: i2f(fg.advance),
 		}
+
+		if glyph.Frame.H() > maxHeight {
+			maxHeight = glyph.Frame.H()
+		}
+
+		mapping[r] = glyph
 	}
 
 	atlasPic, err := codec.NewPictureFromImage(atlasImg)
@@ -131,5 +138,8 @@ func (atlasMeta AtlasMeta) ToAtlasData(resourceFile *bolt.DB) (*codec.AtlasData,
 	return &codec.AtlasData{
 		Glyphs:    mapping,
 		SymbolSet: atlasPic,
+		Size:      int32(atlasMeta.Size),
+		FontName:  atlasMeta.Font,
+		MaxHeight: maxHeight,
 	}, nil
 }
