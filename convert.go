@@ -82,6 +82,7 @@ func (atlasMeta AtlasMeta) ToAtlasData(resourceFile *bolt.DB) (*codec.AtlasData,
 		return nil, err
 	}
 
+	runes = append(runes, ' ')
 	fixedMapping, fixedBounds := makeSquareMapping(
 		face, runes, fixed.I(2))
 	atlasImg := image.NewRGBA(image.Rect(
